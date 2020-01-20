@@ -1,0 +1,296 @@
+#!/boot/home/config/bin/yab
+
+screenWidth = peek("desktopwidth")
+screenHeight = peek("desktopheight")
+halfscreen_width=screenWidth/2
+halfscreen_height=screenHeight/2
+window_width_half=400
+window open (halfscreen_width-window_width_half),(halfscreen_height-300) to  (halfscreen_width+window_width_half),(halfscreen_height+300), "Main", "Changes in yab 1.7.8"
+WINDOW SET "Main", "Flags", "Not-Resizable"
+
+
+x = peek("menuheight")
+tabview 0,25 to WINDOW GET "Main", "Width",(WINDOW GET "Main", "Height")-120, "Tab", "Bottom", "Main"
+TABVIEW ADD "Tab", "Treebox"
+TABVIEW ADD "Tab", "Textcontrol"
+TABVIEW ADD "Tab", "Spincontrol"
+TABVIEW ADD "Tab", "Dropbox"
+TABVIEW ADD "Tab", "Texturl"
+TABVIEW ADD "Tab", "Textedit Test"
+TABVIEW ADD "Tab", "check/radio"
+TABVIEW ADD "Tab","Tabview"
+TABVIEW ADD "Tab","Sound"
+
+// on the 1 Tab
+draw text 10,15 ,"Demonstration Treebox using a csv file", "Tab1"
+x=0
+i=0
+d=0
+textedit 0,255 to 485,400, "ausgabe", 1, "Tab1"
+baummenu(x,i)
+view 155,55 to 400,180, "ViewBox", "Tab1"	
+
+// on the 2 Tab
+
+draw text 10,15 ,"TEXTCONTROL WITH / WITHOUT LABEL", "Tab2"
+stackview 150,50 to 300,200, "Stack", 5, "Tab2"
+textcontrol 10,20 to 300,40, "ID", "Label","with Label", "Tab2"
+textcontrol 10,50 to 300,70, "ID", "","without Label","Tab2"
+textcontrol 10,80 to 300,100, "ID", "Label1","with Label", "Tab2"
+textcontrol 10,110 to 300,130, "ID", "Label and Label","with Label","Tab2"
+textcontrol 10,140 to 300,160, "ID", "","without Label","Tab2"
+
+textedit 0,255 to 485,400, "ausgabe2", 1, "Tab2"
+textedit add "ausgabe2","textcontrol 10,20 to 300,40, \"ID\", \"Label\",\"with Label\", \"Tab2\"\n"
+textedit add "ausgabe2","textcontrol 10,50 to 300,70, \"ID\", \"\",\"without Label\", \"Tab2\"\n"
+textedit add "ausgabe2","textcontrol 10,80 to 300,100, \"ID\", \"Label1\",\"with Label\", \"Tab2\"\n"
+textedit add "ausgabe2","textcontrol 10,110 to 300,130, \"ID\", \"Label and Label\",\"with Label\", \"Tab2\"\n"
+textedit add "ausgabe2","textcontrol 10,140 to 300,160, \"ID\", \"\",\"without Label\", \"Tab2\"\n"
+
+// on the 3 Tab
+draw text 10,15 ,"SPINCONTROL WITH / WITHOUT LABEL", "Tab3"
+SPINCONTROL 10,30, "Spinner", "Label", 10, 1000, 5, "Tab3"
+SPINCONTROL 10,60, "Spinner", "", 10, 10000000, 5, "Tab3"
+SPINCONTROL 10,90, "Spinner", "", 10, 100, 5, "Tab3"
+textedit 0,255 to 485,400, "ausgabe3", 1, "Tab3"
+textedit add "ausgabe3","SPINCONTROL 10,30, \"Spinner\", \"Label\", 10, 1000, 5, \"Tab3\"\n"
+textedit add "ausgabe3","SPINCONTROL 10,30, \"Spinner\", \"\", 10, 10000000, 5, \"Tab3\"\n"
+textedit add "ausgabe3","SPINCONTROL 10,30, \"Spinner\", \"\", 10, 100, 5, \"Tab3\"\n"
+draw text 10,150 ,"Height from spinner icon fixed", "Tab3"
+
+// on the 4 Tab
+draw text 10,15 ,"DROPBOX WITH / WITHOUT LABEL", "Tab4"
+
+DROPBOX 10,50 TO 150,74, "dropbox", "Label", "Tab4"
+DROPBOX ADD "dropbox", "-----"
+DROPBOX ADD "dropbox", "1-1"
+DROPBOX ADD "dropbox", "2-2"
+
+DROPBOX 10,90 TO 150,110, "dropbox1", "", "Tab4"
+DROPBOX ADD "dropbox1", "-----"
+DROPBOX ADD "dropbox1", "1-1"
+DROPBOX ADD "dropbox1", "2-2"
+
+textedit 0,255 to 485,400, "ausgabe4", 1, "Tab4"
+textedit add "ausgabe4","DROPBOX 10,50 TO 150,74, \"dropbox\", \"Label\", \"Tab4\"\n"
+textedit add "ausgabe4","DROPBOX ADD \"dropbox\",\"-----\"\n"
+textedit add "ausgabe4","DROPBOX ADD \"dropbox\",\"1-1\"\n"
+textedit add "ausgabe4","DROPBOX ADD \"dropbox\",\"2-2\"\n"
+textedit add "ausgabe4","DROPBOX 10,90 TO 150,110, \"dropbox1\", \"\", \"Tab4\"\n"
+textedit add "ausgabe4","DROPBOX ADD \"dropbox1\",\"-----\"\n"
+textedit add "ausgabe4","DROPBOX ADD \"dropbox1\",\"1-1\"\n"
+textedit add "ausgabe4","DROPBOX ADD \"dropbox1\",\"2-2\"\n"
+draw text 10,150 ,"DROPBOX MIN Height or Font Height not fixed in YAB Code", "Tab4"
+
+// on the 5 Tab
+draw text 10,15 ,"TEXTURL without duplication on mouseover", "Tab5"
+texturl 10,50, "email","http://www.besly.de", "lorenz.glaser@besly.de",  "Tab5"
+texturl 10,90, "file","file://www.besly.de", "file://www.besly.de",  "Tab5"
+texturl 10,130, "https","http://www.besly.de", "http://www.besly.de",  "Tab5"
+texturl 10,170, "email","webmaster@besly.de", "webmaster@besly.de",  "Tab5"
+textedit 10,200 to 460,380, "ausgabe5", 3, "Tab5"
+textedit add "ausgabe5","texturl 10,10, \"email\",\"http://www.besly.de\", \"lorenz.glaser@besly.de\",  \"Tab5\"\n"
+textedit add "ausgabe5","texturl 10,50, \"file\",\"file://www.besly.de\", \"file://www.besly.de\",  \"Tab5\"\n"
+textedit add "ausgabe5","texturl 10,90, \"https\",\"http://www.besly.de\", \"http://www.besly.de\",  \"Tab5\"\n"
+textedit add "ausgabe5","texturl 10,130, \"email\",\"webmaster@besly.de\", \"webmaster@besly.de\",  \"Tab5\"\n"
+
+
+// on the 6 Tab
+
+Draw text 10,15, "This textcontrol is for testing. you can only type nummeric characters.","Tab6"
+Draw text 10,30, "if you have the same id for the textcontrol on a second place, the textcontrol is overwrite","Tab6"
+
+textcontrol 10,40 to 300,60, "ID2", "ID 2","without Label","Tab6"
+TEXTCONTROL SET "ID2", "type", "number"
+textcontrol 10,80 to 300,100, "ID3", "Same ID 3","without Label","Tab6"
+TEXTCONTROL SET "ID3", "type", "number"
+textcontrol 10,120 to 300,140, "ID3", "Same ID 3","without Label","Tab6"
+
+// on the 7 Tab
+draw text 10,15 ,"Radio / Checkbox with Label and without Label", "Tab7"
+//Boxview 10,10 to 200,200, "xx", ""+d$(x), 1, "Tab7"
+//CHECKBOX x1,y1, ID$, Label$, IsActivated, View$
+CHECKBOX 10,20, "ID", "Label",true, "Tab7"
+CHECKBOX 10,40, "ID", "",false, "Tab7"
+//RADIOBUTTON x1,y1, ID$, Label$, IsActivated, View$
+ RADIOBUTTON 10,60, "ID", "Label",true, "Tab7"
+ RADIOBUTTON 10,80, "ID", "",false, "Tab7"
+textedit 0,255 to 485,400, "ausgabe4", 1, "Tab7"
+textedit add "ausgabe4","DROPBOX 10,50 TO 150,74, \"dropbox\", \"Label\", \"Tab7\"\n"
+textedit add "ausgabe4","DROPBOX ADD \"dropbox\",\"-----\"\n"
+
+// on the 8 Tab
+draw text 10,15 ,"Tabview del is working, but today there is a problem to at the old tabview.", "Tab8"
+Button 10,100 to 100,130, "tabdel","tabdel","Tab8"
+Button 10,140 to 100,160, "tabadd","tabadd","Tab8"
+textedit 0,255 to 485,400, "ausgabe8", 1, "Tab8"
+textedit add "ausgabe8","Button 10,140 to 100,160, \"tabadd\",\"tabadd\",\"Tab8\"\n"
+textedit add "ausgabe8","Button 10,100 to 100,130, \"tabdel\",\"tabdel\",\"Tab8\"\n"
+textedit add "ausgabe8","Tabview del is working, but today there is a problem to at the old tabview.\n"
+
+// on the 9 Tab
+//Sound
+
+Button 20,10 to 200,30, "start","Playsound Start","Tab9"
+Button 20,40 to 200,60, "stop","Playsound Stop","Tab9"
+Button 20,70 to 200,90, "pause","Playsound Pause / Continue","Tab9"
+
+Button 20,100 to 200,120, "start_Media","MediaSound Start","Tab9"
+Button 20,130 to 200,150, "stop_Media","MediaSound Stop","Tab9"
+textedit 10,200 to 460,380, "ausgabe9", 3, "Tab9"
+textedit add "ausgabe9","case \"start|\"\n"
+textedit add "ausgabe9","  ID= SOUND PLAY \"02 - Let Her Go.mp3\"\n"
+textedit add "ausgabe9","  ID isn't working\n"				
+textedit add "ausgabe9","break\n"
+textedit add "ausgabe9","case \"stop|\n"
+textedit add "ausgabe9","  SOUND STOP ID\n"		
+textedit add "ausgabe9","break \n"
+textedit add "ausgabe9","case \"pause|\"\n"
+textedit add "ausgabe9","  SOUND WAIT ID \n Sound wait works, but with my soundcard i get a brumm signal. maybe on other soundcard is nothing or is a Haiku problem.\n"
+textedit add "ausgabe9","break\n"
+textedit add "ausgabe9","MEDIASOUND you must wait a little before you hear the stream\"\n"	
+textedit add "ausgabe9","  ID = MEDIASOUND play \"https://swr-edge-10b8-fra-dtag-cdn.cast.addradio.de/swr/swr3/live/mp3/128/stream.mp3\"\n"				
+textedit add "ausgabe9","break\n"
+textedit add "ausgabe9","case \"stop|\n"
+textedit add "ausgabe9","  MEDIASOUND STOP ID\n"		
+textedit add "ausgabe9","break \n"
+
+
+
+
+//ON MainView
+textcontrol 10,500 to 300,540, "ID33", "Same ID 4 -0-9","","Main"
+TEXTCONTROL SET "ID33", "type", "number"
+textcontrol 10,560 to 300,580, "ID4", "Same ID 4 All Characters","","Main"
+TEXTCONTROL SET "ID4", "align", "right"
+
+
+
+//TOOLTIP "test", "jhjghfdjghdsklghldhl"
+  //TOOLTIP COLOR "bgcolor", 255,0,0
+//OPTION SET  "email", "Enabled", true 
+//--------------------------------------
+	dim mouse$(1)
+	dim part$(1)
+	inloop = true
+	while(inloop)
+
+		msg$ = message$
+
+		if (split(msg$, part$(), ":|") > 2) then
+			PartTwo$ = part$(2)
+			PartThree$ = part$(3)
+	         fi
+
+		if (msg$ <> "") print msg$
+			switch (msg$)
+
+				case "Main:_QuitRequested|":
+					window close "Main"
+					//window close "View"
+				break
+
+				case "Quit|"
+					window close "Main"
+				break
+
+				case "View:Spiel:Beenden|"
+				        window close "Main"
+				break
+
+				case ":_Select:"+PartThree$+"|"
+					eintragnummer=val(PartThree$)
+					print eintragnummer					
+				         rechte_seite(eintragnummer)				
+				break
+				case "tabdel|"
+				       tabview remove "Tab",0
+				break
+				case "tabadd|"
+					
+				        TABVIEW ADD "Tab", "Textcontrol"
+					//draw text 10,15 ,"TEXTCONTROL WITH / WITHOUT LABEL", "Tab2"
+				break
+				case "start|"
+					ID = SOUND PLAY "02 - Let Her Go.mp3"
+					print "------"	
+					print ID
+					print "------"					
+				break
+				case "stop|"
+					SOUND STOP ID			
+				break 
+				case "pause|"
+					SOUND WAIT ID // 2
+				break 
+				case "start_Media|"
+					//ID = MEDIASOUND play "02 - Let Her Go.mp3"
+					ID = MEDIASOUND play "https://swr-edge-10b8-fra-dtag-cdn.cast.addradio.de/swr/swr3/live/mp3/128/stream.mp3"				
+					print "------"	
+					print ID
+					print "------"		
+				break
+				case "stop_Media|"
+					MEDIASOUND STOP ID							
+				break
+				
+				default
+				break
+			end switch	
+			if(window count<1) inloop = false
+		    sleep 0.1
+ mmsg$ = MOUSE MESSAGE$
+                        if (mmsg$<>"" and mmsg$<>old_mmsg$) then
+                                //print mmsg$
+                                //old_mmsg$= mmsg$ 
+                                nx = split(mmsg$, mouse$(), ":")
+                                Viewname$=mouse$(1)
+                                //print Viewname$
+                                Xmouse  = val(mouse$(2))
+                                Ymouse  = val(mouse$(3))
+                                BLmouse= val(mouse$(4))
+                                BCmouse= val(mouse$(5))
+                                BRmouse= val(mouse$(6))
+                                casestring$=Viewname$+":"+mouse$(4)+":"+mouse$(5)+":"+mouse$(6)
+                                print casestring$
+                        endif
+	wend
+
+sub baummenu(x,i,d)
+fileload$="hilfe.csv"
+	auslesen=open(fileload$, "r")
+	
+	while (not EOF(auslesen))
+	line input #auslesen b$
+	TEXTEDIT ADD "ausgabe", b$+"\n"
+	dim elements$(1)
+	
+	numElements = split(b$, elements$(),";")
+	for i = 1 to numElements
+			x=x+1
+			dim d$(x)
+			d$(x) = elements$(i)
+			
+	//print d$(x)
+	next i
+	wend
+	close(auslesen)
+
+anzahlspalten=numElements
+anzahlzeilen=x/anzahlspalten
+eintraege=anzahlspalten*anzahlzeilen
+name_baummenu$=d$(0)
+treebox 0,50 to 147,250, name_baummenu$, 3, "Tab1"
+for treezeilen=1 to anzahlzeilen*anzahlspalten step anzahlspalten
+	
+		          if (d$(treezeilen+2)="") then
+				treebox add name_baummenu$, d$(treezeilen+1)
+			
+			else
+				treebox add name_baummenu$, d$(treezeilen+1), d$(treezeilen+2),true		
+			endif
+		
+	print treezeilen
+next treezeilen
+
+end sub
