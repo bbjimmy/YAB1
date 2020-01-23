@@ -87,7 +87,7 @@ draw text 10,15 ,"TEXTURL without duplication on mouseover", "Tab5"
 texturl 10,50, "email","http://www.besly.de", "lorenz.glaser@besly.de",  "Tab5"
 texturl 10,90, "file","file://www.besly.de", "file://www.besly.de",  "Tab5"
 texturl 10,130, "https","http://www.besly.de", "http://www.besly.de",  "Tab5"
-texturl 10,170, "email","webmaster@besly.de", "webmaster@besly.de",  "Tab5"
+texturl 10,170, "dir","dir: /boot/home/config","dir: /boot/home/config",  "Tab5"
 textedit 10,200 to 460,380, "ausgabe5", 3, "Tab5"
 textedit add "ausgabe5","texturl 10,10, \"email\",\"http://www.besly.de\", \"lorenz.glaser@besly.de\",  \"Tab5\"\n"
 textedit add "ausgabe5","texturl 10,50, \"file\",\"file://www.besly.de\", \"file://www.besly.de\",  \"Tab5\"\n"
@@ -137,6 +137,9 @@ Button 20,70 to 200,90, "pause","Playsound Pause / Continue","Tab9"
 
 Button 20,100 to 200,120, "start_Media","MediaSound Start","Tab9"
 Button 20,130 to 200,150, "stop_Media","MediaSound Stop","Tab9"
+//tooltip "start_Media", "testetxt"
+tooltipnew "start_Media" , "testetxt" ,"lowcolor", 255,255,255
+
 textedit 10,200 to 460,380, "ausgabe9", 3, "Tab9"
 textedit add "ausgabe9","case \"start|\"\n"
 textedit add "ausgabe9","  ID= SOUND PLAY \"02 - Let Her Go.mp3\"\n"
@@ -154,8 +157,7 @@ textedit add "ausgabe9","break\n"
 textedit add "ausgabe9","case \"stop|\n"
 textedit add "ausgabe9","  MEDIASOUND STOP ID\n"		
 textedit add "ausgabe9","break \n"
-
-
+textedit add "ausgabe9","//If you click MEDIASOUND STOP  twice, the program breaks, because there is a little bug in my code. I'am working on this issue. \n"
 
 
 //ON MainView
@@ -197,17 +199,16 @@ TEXTCONTROL SET "ID4", "align", "right"
 				case "View:Spiel:Beenden|"
 				        window close "Main"
 				break
-
 				case ":_Select:"+PartThree$+"|"
 					eintragnummer=val(PartThree$)
 					print eintragnummer					
 				         rechte_seite(eintragnummer)				
 				break
 				case "tabdel|"
-				       tabview remove "Tab",0
+				       tabview remove "Tab",1
+					//print old_tab
 				break
-				case "tabadd|"
-					
+				case "tabadd|"					
 				        TABVIEW ADD "Tab", "Textcontrol"
 					//draw text 10,15 ,"TEXTCONTROL WITH / WITHOUT LABEL", "Tab2"
 				break
@@ -218,20 +219,30 @@ TEXTCONTROL SET "ID4", "align", "right"
 					print "------"					
 				break
 				case "stop|"
-					SOUND STOP ID			
+					IF (ID=1) THEN
+						SOUND STOP ID
+						ID=0
+						//print "ID:"+str$(ID)
+					ELSE
+						print "Nothing to do"
+					ENDIF				
+								
 				break 
 				case "pause|"
 					SOUND WAIT ID // 2
 				break 
 				case "start_Media|"
 					//ID = MEDIASOUND play "02 - Let Her Go.mp3"
-					ID = MEDIASOUND play "https://swr-edge-10b8-fra-dtag-cdn.cast.addradio.de/swr/swr3/live/mp3/128/stream.mp3"				
-					print "------"	
-					print ID
-					print "------"		
+					NEW_ID = MEDIASOUND play "https://swr-edge-10b8-fra-dtag-cdn.cast.addradio.de/swr/swr3/live/mp3/128/stream.mp3"	
 				break
 				case "stop_Media|"
-					MEDIASOUND STOP ID							
+					IF (NEW_ID=1) THEN
+						MEDIASOUND STOP NEW_ID
+						NEW_ID=0
+						//print "NEW_ID:"+str$(NEW_ID)
+					ELSE
+						print "Nothing to do"
+					ENDIF						
 				break
 				
 				default
