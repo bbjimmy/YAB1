@@ -1499,6 +1499,8 @@ static void run_it(YabInterface* yab)
       	radioset(current, yab); DONE;
       case cTOOLTIP:
         tooltip(current, yab); DONE;
+      case cTOOLTIPNEW:
+        tooltipnew(current, yab); DONE;
       case cTOOLTIPCOLOR:
         tooltipcolor(current, yab); DONE;
       case cFILEBOX:

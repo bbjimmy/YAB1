@@ -1341,7 +1341,24 @@ void tooltip(struct command *cmd, YabInterface *yab)
 	yi_SetCurrentLineNumber(cmd->line, (const char*)cmd->lib->s, yab);
 	yi_ToolTip(view,text,yab);
 }
-
+void tooltipnew(struct command *cmd, YabInterface *yab)
+{
+	char *view, *text, *color;
+	int r,g,b;
+	
+	b = pop(stNUMBER)->value;
+	g = pop(stNUMBER)->value;
+	r = pop(stNUMBER)->value;
+	
+	color = pop(stSTRING)->pointer;
+	text = pop(stSTRING)->pointer;
+	view = pop(stSTRING)->pointer;
+	
+	
+		
+	yi_SetCurrentLineNumber(cmd->line, (const char*)cmd->lib->s, yab);
+	yi_ToolTipNew(view,text,color,r,g,b,yab);	
+}
 void tooltipcolor(struct command *cmd, YabInterface *yab)
 {
 	char *color;

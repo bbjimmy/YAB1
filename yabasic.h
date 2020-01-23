@@ -378,7 +378,7 @@ enum cmd_type { /* type of command */
   cVIEW, cBOXVIEW, cBOXVIEWSET, cTAB, cSLIDER1, cSLIDER2, cSLIDER3, cSLIDER4, cSLIDER5, cSLIDER6,
   cOPTION1, cOPTION2, cOPTION3, cDROPZONE, cTEXTCONTROL2, cTEXTCONTROL3, cTEXTCONTROL4, cTEXTCONTROL5, 
   cCOLORCONTROL1, cCOLORCONTROL2, cTREEBOX1, cTREEBOX2, cTREEBOX3, cTREEBOX4, cTREEBOX5,
-  cBUTTONIMAGE, cCHECKBOXIMAGE, cCHECKBOXSET, cRADIOSET, cTOOLTIP, cTOOLTIPCOLOR, cTREESORT,
+  cBUTTONIMAGE, cCHECKBOXIMAGE, cCHECKBOXSET, cRADIOSET, cTOOLTIP, cTOOLTIPNEW, cTOOLTIPCOLOR, cTREESORT,
   cLISTSORT, cFILEBOX, cFILEBOXADD2, cFILEBOXCLEAR, cCOLUMNBOXREMOVE,
   cCOLUMNBOXSELECT, cCOLUMNBOXADD, cDROPBOXSELECT, cMENU2, cSUBMENU1, cSUBMENU2, cCLIPBOARDCOPY,
   cCOLUMNBOXCOLOR, cPRINTERCONFIG, cCALENDAR, cLISTBOXSELECT, cLISTBOXADD1, cLISTBOXADD2, 
@@ -657,6 +657,7 @@ void checkboximage(struct command *, YabInterface *yab);
 void checkboxset(struct command *, YabInterface *yab);
 void radioset(struct command *, YabInterface *yab);
 void tooltip(struct command *, YabInterface *yab);
+void tooltipnew(struct command *, YabInterface *yab);
 void tooltipcolor(struct command *, YabInterface *yab);
 void listsort(struct command *, YabInterface *yab);
 void treesort(struct command *, YabInterface *yab);

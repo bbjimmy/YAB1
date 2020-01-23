@@ -638,66 +638,34 @@ void YabInterface::TabAdd(const char* id, const char* tabname)
 {
 	YabView *myView = NULL;
 	YabTabView *myTabView = NULL; 
-	const char* oldtabview;
+	
 			
 	for(int i=0; i<viewList->CountItems(); i++)
 	{
-		
 		myView = cast_as((BView*)viewList->ItemAt(i), YabView);
 		if(myView)
 		{
-			viewList->PrintOut();	
+			//viewList->PrintOut();	
 			//fprintf(stderr, "Viewlist %d\n",viewList->ItemAt(i));
 			YabWindow *w = cast_as(myView->Window(), YabWindow);
 			if(w)
 			{
 				w->Lock();				
-				
 				myTabView = cast_as(myView->FindView(id), YabTabView);	
-				//printf("\t View %d and the id %d\n", viewList->ItemAt(i));
-				//printf ("%d \n",myTabView);
-				//
-				myTabView->PrintOut();
-				oldtabview=myTabView->GetTabName(i);
-				printf ("oldtabview: ");
-				printf (oldtabview);
-				printf("\n");
-				myTabView->FindTabName(tabname);
-				printf("\n");
-				if (oldtabview==tabname)
-				{
-					
-					//BRect contentFrame = myTabView->Bounds();
-					//YabView *newView = new YabView(contentFrame, id, B_FOLLOW_ALL_SIDES,B_WILL_DRAW|B_NAVIGABLE_JUMP);
-					
-					//viewList->AddView(id, tabname, TYPE_YABVIEW);
-					//myTabView=cast_as(myView->FindView(id), YabTabView);
-					printf ("%d \n",myTabView);
-					//myTabView->AddTab(cast_as(myView->FindView(id), YabTabView),oldtabview);
-					//YabTabView* tabView = static_cast<YabTabView*>(myTabView);
-					//YabView *t = static_cast<YabView*>(tabView->TabAt(num)->View());
-					//YabView *t = static_cast<YabView*>(cast_as(myView->FindView(id), YabTabView));
-					//AddView(i,tabname,TYPE_YABVIEW);
-					//tabView->show();
-					//myTabView->AddTab(Tab2, tabname);
-				}
-				else
-				{
+			
+				//myTabView->FindTabName(tabname);
 				  if(myTabView)
 				  {
-				
 					BString t(id);					
 					t << myTabView->CountTabs()+1;
 					BRect contentFrame = myTabView->Bounds();
 					YabView *newView = new YabView(contentFrame, t.String(), B_FOLLOW_ALL_SIDES,B_WILL_DRAW|B_NAVIGABLE_JUMP);
 					viewList->AddView(t.String(), newView, TYPE_YABVIEW);
-					myTabView->AddTab(newView, tabname);
-					
-						
+					myTabView->AddTab(newView, tabname);						
 					w->Unlock();
 					return;
 				  }
-				}
+				
 				w->Unlock();
 				
 			}
@@ -706,7 +674,6 @@ void YabInterface::TabAdd(const char* id, const char* tabname)
 	}
 	Error(id, "TABVIEW");
 }
-
 void YabInterface::TabDel(const char* id, int num) //Reactivating Lorenz Glaser (aka lorglas) 20200801
 {
 	YabView *myView = NULL;
@@ -736,9 +703,9 @@ void YabInterface::TabDel(const char* id, int num) //Reactivating Lorenz Glaser 
 						YabView *t = static_cast<YabView*>(tabView->TabAt(num)->View());
 						RemoveView(t);
 						//viewList->DelView(t->NameForTabView());
-						myTabView->RemoveTab(num); //Remove Tab	
+						myTabView->RemoveTab(num); //Remove Tab							
 						
-						//printf ("HAllo %d \n",t);
+						//viewList->PrintOut();	
 					}			
 					w->Unlock();
 					//viewList->PrintOut();
@@ -747,6 +714,15 @@ void YabInterface::TabDel(const char* id, int num) //Reactivating Lorenz Glaser 
 				//w->Unlock();
 			}
 		}
+	}
+	Error(id, "TABVIEW");
+}
+/*
+void YabInterface::TabADD2(const char* id, int num) //Reactivating Lorenz Glaser (aka lorglas) 20200801
+{
+	myTabView->AddTab(id, tabname);	
+	myTabView->AddTab(num);
+	
 	}
 	Error(id, "TABVIEW");
 }
@@ -5373,19 +5349,70 @@ void YabInterface::ToolTips(const char* view, const char* text)
 	Error(view, "VIEW");
 }
 
+void YabInterface::ToolTipsNew(const char* view, const char* text, const char* color, int r, int g, int b)
+{
+	printf("View %s",view);
+	printf("View %s",text);
+	printf("View %s",color);
+	printf("View %d",r);
+	printf("View %d",g);
+	printf("View %d",b);
+	
+	//SetViewColor(b1);
+	//SetLowColor(b1);
+	//SetHighColor(b2);
+	YabView *myView = NULL;
+	BView *theView = NULL;
+	for(int i=0; i<viewList->CountItems(); i++)
+	{
+		myView = cast_as((BView*)viewList->ItemAt(i), YabView);
+		if(myView)
+		{
+			YabWindow *w = cast_as(myView->Window(), YabWindow);
+			if(w)
+			{
+				w->Lock();
+				theView = w->FindView(view);
+				if(theView)
+				{
+					if(theView->Name())
+					{
+						if(!strcmp(theView->Name(), view))
+						{
+							if(text[0] == '\0')
+								// tooltip->SetHelp(theView, NULL);
+								;
+							else
+								theView->SetLowColor(r,g,b,255);
+								theView->SetToolTip(text);
+								
+							w->Unlock();
+							return;
+						}
+					}
+				}
+				w->Unlock();
+			}
+		}
+	}
+	Error(view, "VIEW");
+}
 void YabInterface::ToolTipsColor(const char* color, int r, int g, int b)
 {
 	/*
 		BString tmp(color);
 		rgb_color rgb = {r,g,b};
 		if(tmp.IFindFirst("BGColor")!=B_ERROR)
-		
-			tooltip->SetColor(rgb);
-		
+		{
+			//tooltip->SetColor(rgb);
+			
+		}
 		else if(tmp.IFindFirst("TextColor")!=B_ERROR)
-		
-			tooltip->SetTextColor(rgb);
-	*/	
+		{
+			//tooltip->SetTextColor(rgb);
+			
+		}
+	*/
 }
 
 void YabInterface::TreeSort(const char* view)
@@ -8999,6 +9026,7 @@ void YabInterface::Canvas(BRect frame, const char* id, const char* view)
 }
 int YabInterface::Sound(const char* filename) //Reactivate Sound Lorglas 2020.01.02
 {
+	int soundplayer;
 	entry_ref ref; 
 	BEntry entry(filename, true); 
 	//Check, if filename is ok
@@ -9008,11 +9036,11 @@ int YabInterface::Sound(const char* filename) //Reactivate Sound Lorglas 2020.01
 			delete fPlayer;
 			fPlayer = new BFileGameSound(&ref, false);
 			fPlayer->StartPlaying();
-			
-	return 1;	
+			soundplayer=1;
+	return soundplayer;	
 }
 
-void YabInterface::SoundStop(int32) //Reactivate Sound Lorglas 2020.01.02
+int YabInterface::SoundStop(int32 soundplayer) //Reactivate Sound Lorglas 2020.01.02
 {
 	//Check, if fplayer is NULL, then do nothing
 	if (fPlayer == NULL) {
@@ -9022,18 +9050,23 @@ void YabInterface::SoundStop(int32) //Reactivate Sound Lorglas 2020.01.02
 		fPlayer->StopPlaying();
 		delete fPlayer;
 		fPlayer = NULL;
+		soundplayer=0;	
+		//printf("%d\n",finished);
+		return soundplayer;
 	}		
 }
 
-void YabInterface::SoundWait(int32) //Reactivate Sound Lorglas 2020.01.03
+int YabInterface::SoundWait(int32 soundplayer) //Reactivate Sound Lorglas 2020.01.03
 {	
 	//Check, if fplayr is in Paused modus, if so Setpaused to false, so play again, if true fplayer paused 
 	if (fPlayer->IsPaused()) {
-		fPlayer->SetPaused(false, 0);	
+		fPlayer->SetPaused(false, 2);	
 	}
 	else {
 		fPlayer->SetPaused(true, 0);
 	}
+	soundplayer=2;
+	return soundplayer;
 }
 void play_buffer(void *cookie, void * buffer, size_t size, const media_raw_audio_format & format)
 {
@@ -9094,24 +9127,20 @@ int YabInterface::MediaSound(const char* filename) //Implementation MediaSound L
 	player->SetHasData(true);
 	player->Start();	
 	finished=1;
-	printf(" %s is playing \n",filename);
+	//printf(" %s is playing \n",filename);
 	return finished;
 	
 }
-void YabInterface::MediaSoundStop(int32 finished) //New Version Sound Lorglas 2020.01.02
+int YabInterface::MediaSoundStop(int32 finished) //New Version Sound Lorglas 2020.01.02
 {
 	//Check, if fplayer is NULL, then do nothing
-	//if (player == NULL) {
-	//}
-	//Check, if fplayer is Playing, then stop playing and delete fplayer
-	
+	if (finished==1) {
 		player->Stop();
-		delete player;
-		//delete_sem(finished);
-		//delete playFile;
-		//player = NULL;
-		
-		
+		delete player;	
+		finished=0;	
+		//printf("%d\n",finished);
+		return finished;
+	}	
 }
 void YabInterface::SetOption(const char* id, const char* option, double x, double y)
 {
@@ -10419,6 +10448,11 @@ void yi_ToolTip(const char* view, const char* text, YabInterface *yab)
 	yab->ToolTips(view,_L(text));
 }
 
+void yi_ToolTipNew(const char* view, const char* text,const char* color, int r, int g, int b, YabInterface *yab)
+{
+	yab->ToolTipsNew(view, _L(text), color, r, g, b);
+}
+
 void yi_ToolTipColor(const char* color, int r, int g, int b, YabInterface *yab)
 {
 	yab->ToolTipsColor(color,r,g,b);
@@ -10925,14 +10959,14 @@ int yi_Sound(const char* filename, YabInterface* yab) //Reactivate Sound Lorglas
 	return yab->Sound(filename);
 }
 
-void yi_SoundStop(int id, YabInterface* yab) //Reactivate Sound Lorglas 2020.01.02
+int yi_SoundStop(int id, YabInterface* yab) //Reactivate Sound Lorglas 2020.01.02
 {
-	yab->SoundStop(id);
+	return yab->SoundStop(id);
 }
 
-void yi_SoundWait(int id, YabInterface* yab) //Reactivate Sound Lorglas 2020.01.03
+int yi_SoundWait(int id, YabInterface* yab) //Reactivate Sound Lorglas 2020.01.03
 {
-	yab->SoundWait(id);
+	return yab->SoundWait(id);
 }
 
 int yi_MediaSound(const char* filename, YabInterface* yab)
@@ -10940,9 +10974,9 @@ int yi_MediaSound(const char* filename, YabInterface* yab)
 	return yab->MediaSound(filename);
 }
 
-void yi_MediaSoundStop(int id,YabInterface* yab)
+int yi_MediaSoundStop(int id,YabInterface* yab)
 {
-	yab->MediaSoundStop(id);
+	return yab->MediaSoundStop(id);
 }
 /*
 void yi_MediaSoundWait(int id, YabInterface* yab)
